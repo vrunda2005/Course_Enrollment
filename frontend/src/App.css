@@ -301,10 +301,11 @@ button:disabled {
 }
 
 /* Auth Pages (Login/Register) */
+/* Auth Pages (Login/Register) */
 .auth-container {
   max-width: 450px;
-  margin: 4rem auto;
-  padding: 2.5rem;
+  margin: 6rem auto;
+  padding: 3rem;
   background: var(--bg-secondary);
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -313,16 +314,17 @@ button:disabled {
 }
 
 .auth-container h2 {
-  font-size: 2rem;
+  font-size: 2.25rem;
   color: var(--text-primary);
-  margin-bottom: 2rem;
-  font-weight: 700;
+  margin-bottom: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .auth-container form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 .auth-container form div {
@@ -331,18 +333,18 @@ button:disabled {
 
 .auth-container label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .auth-container input,
 .auth-container select {
   width: 100%;
-  padding: 0.875rem;
+  padding: 1rem;
   border: 2px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
   transition: all 0.2s ease;
   background-color: var(--bg-primary);
@@ -352,28 +354,32 @@ button:disabled {
 .auth-container select:focus {
   border-color: var(--accent-primary);
   outline: none;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
 }
 
 .auth-container button {
-  margin-top: 1rem;
-  padding: 1rem;
-  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  padding: 1.125rem;
+  font-size: 1.125rem;
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .auth-container p {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .auth-container a {
   color: var(--accent-primary);
   text-decoration: none;
   font-weight: 600;
+  transition: color 0.2s ease;
 }
 
 .auth-container a:hover {
+  color: var(--accent-hover);
   text-decoration: underline;
 }
