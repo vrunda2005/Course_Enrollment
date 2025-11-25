@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import axios from '../api/axios';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -13,29 +14,11 @@ const Login = () => {
         e.preventDefault();
         setError('');
         try {
-            const response = await fetch('http://localhost:3000/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const contentType = response.headers.get("content-type");
-            let data;
-            if (contentType && contentType.indexOf("application/json") !== -1) {
-                data = await response.json();
-            } else {
-                const text = await response.text();
-                throw new Error(text || 'Server error');
-            }
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Login failed');
-            }
-
-            login(data.user, data.token);
+            const response = await axios.post('/auth/login', { username, password });
+            login(response.data.user, response.data.token);
             navigate('/');
         } catch (err) {
-            setError(err.message);
+            setError(err.response?.data?.error || err.message || 'Login failed');
         }
     };
 

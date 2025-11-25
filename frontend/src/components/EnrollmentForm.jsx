@@ -14,8 +14,8 @@ const EnrollmentForm = ({ onSuccess }) => {
         const fetchOptions = async () => {
             try {
                 const [studentsRes, coursesRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/students'),
-                    axios.get('http://localhost:3000/api/courses')
+                    axios.get('/students'),
+                    axios.get('/courses')
                 ]);
                 setStudents(studentsRes.data);
                 setCourses(coursesRes.data);
@@ -28,7 +28,7 @@ const EnrollmentForm = ({ onSuccess }) => {
 
     const fetchStudentStats = async (studentId) => {
         try {
-            const res = await axios.get(`http://localhost:3000/api/stats/student-progress`);
+            const res = await axios.get(`/stats/student-progress`);
             const stats = res.data.find(s => s.student_id === studentId);
             setStudentStats(stats);
         } catch (err) {
@@ -48,7 +48,7 @@ const EnrollmentForm = ({ onSuccess }) => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/api/enrollments', {
+            const response = await axios.post('/enrollments', {
                 student_id: selectedStudent,
                 course_id: selectedCourse
             });
