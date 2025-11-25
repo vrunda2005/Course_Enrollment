@@ -1,0 +1,19 @@
+[dotenv@17.2.3] injecting env (6) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+DB Config: {
+  user: 'vrunda',
+  host: 'localhost',
+  database: 'course_enrollment',
+  port: '5433',
+  passwordType: 'string',
+  passwordLength: 11
+}
+Server running on port 3000
+Connected to PostgreSQL database
+[CREATE COURSE] Request: {
+  title: 'Test Course 5',
+  code: 'TC105',
+  credits: 3,
+  department_id: 'invalid-uuid'
+}
+[CREATE COURSE] Error: invalid input syntax for type uuid: "invalid-uuid" Code: 22P02
