@@ -11,7 +11,7 @@ const Courses = () => {
 
     const fetchCourses = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/courses');
+            const res = await axios.get('/courses');
             setCourses(res.data);
         } catch (err) {
             console.error(err);
@@ -20,7 +20,7 @@ const Courses = () => {
 
     const fetchDepartments = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/departments');
+            const res = await axios.get('/departments');
             setDepartments(res.data);
         } catch (err) {
             console.error('Error fetching departments:', err);
@@ -45,7 +45,7 @@ const Courses = () => {
     const handleDelete = async (id) => {
         if (!window.confirm('Delete this course?')) return;
         try {
-            await axios.delete(`http://localhost:3000/api/courses/${id}`);
+            await axios.delete(`/courses/${id}`);
             setMessage('Course deleted');
             fetchCourses();
         } catch (err) {
@@ -60,10 +60,10 @@ const Courses = () => {
         setError('');
         try {
             if (editing) {
-                await axios.put(`http://localhost:3000/api/courses/${editing}`, form);
+                await axios.put(`/courses/${editing}`, form);
                 setMessage('Course updated');
             } else {
-                await axios.post('http://localhost:3000/api/courses', form);
+                await axios.post('/courses', form);
                 setMessage('Course created');
             }
             setEditing(null);

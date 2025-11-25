@@ -11,7 +11,7 @@ const Enrollments = () => {
     const fetchEnrollments = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:3000/api/enrollments', {
+            const res = await axios.get('/enrollments', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setEnrollments(res.data);
@@ -29,7 +29,7 @@ const Enrollments = () => {
         if (!window.confirm('Are you sure you want to drop this course?')) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:3000/api/enrollments/${id}`, {
+            await axios.delete(`/enrollments/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchEnrollments();

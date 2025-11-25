@@ -14,11 +14,11 @@ const Dashboard = () => {
         const fetchData = async () => {
             try {
                 const [coursesRes, progressRes, deptRes, statusRes, overviewRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/stats/top-courses'),
-                    axios.get('http://localhost:3000/api/stats/student-progress'),
-                    axios.get('http://localhost:3000/api/stats/departments'),
-                    axios.get('http://localhost:3000/api/stats/enrollment-status'),
-                    axios.get('http://localhost:3000/api/stats/overview')
+                    axios.get('/stats/top-courses'),
+                    axios.get('/stats/student-progress'),
+                    axios.get('/stats/departments'),
+                    axios.get('/stats/enrollment-status'),
+                    axios.get('/stats/overview')
                 ]);
                 setTopCourses(coursesRes.data);
                 setStudentProgress(progressRes.data);

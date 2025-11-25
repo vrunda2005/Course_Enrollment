@@ -11,7 +11,7 @@ const Students = () => {
 
     const fetchStudents = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/students');
+            const res = await axios.get('/students');
             setStudents(res.data);
         } catch (err) {
             console.error(err);
@@ -20,7 +20,7 @@ const Students = () => {
 
     const fetchDepartments = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/departments');
+            const res = await axios.get('/departments');
             setDepartments(res.data);
         } catch (err) {
             console.error('Error fetching departments:', err);
@@ -45,7 +45,7 @@ const Students = () => {
     const handleDelete = async (id) => {
         if (!window.confirm('Delete this student?')) return;
         try {
-            await axios.delete(`http://localhost:3000/api/students/${id}`);
+            await axios.delete(`/students/${id}`);
             setMessage('Student deleted');
             fetchStudents();
         } catch (err) {
@@ -60,12 +60,12 @@ const Students = () => {
         setError('');
         try {
             if (editing) {
-                const res = await axios.put(`http://localhost:3000/api/students/${editing}`, form);
+                const res = await axios.put(`/students/${editing}`, form);
                 setMessage('Student updated');
                 // Update local state directly to reflect changes immediately
                 setStudents(students.map(s => s.student_id === editing ? res.data : s));
             } else {
-                const res = await axios.post('http://localhost:3000/api/students', form);
+                const res = await axios.post('/students', form);
                 setMessage('Student created');
                 // Add new student to local state
                 setStudents([res.data, ...students]);
