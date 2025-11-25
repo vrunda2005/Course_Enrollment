@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import axios from '../api/axios';
 
 const EnrollmentForm = ({ onSuccess }) => {
+    const { user } = useAuth();
     const [students, setStudents] = useState([]);
     const [courses, setCourses] = useState([]);
     const [selectedStudent, setSelectedStudent] = useState('');
@@ -24,7 +26,28 @@ const EnrollmentForm = ({ onSuccess }) => {
             }
         };
         fetchOptions();
+        fetchOptions();
     }, []);
+
+    // Auto-select student if user is not admin
+    useEffect(() => {
+        if (students.length > 0 && user && user.role !== 'admin') {
+            // Try to find a student that matches the logged-in user
+            // We check if the student's email matches the username OR if the first name matches
+            const matchedStudent = students.find(s =>
+                s.email.toLowerCase() === user.username.toLowerCase() ||
+                s.first_name.toLowerCase() === user.username.toLowerCase()
+            );
+
+            if (matchedStudent) {
+                setSelectedStudent(matchedStudent.student_id);
+            } else {
+                // Fallback: If no match found, maybe the user hasn't been linked to a student record yet.
+                // In a real app, we would handle this better. For now, we can leave it empty or log a warning.
+                console.warn('No matching student record found for user:', user.username);
+            }
+        }
+    }, [students, user]);
 
     const fetchStudentStats = async (studentId) => {
         try {
@@ -77,17 +100,32 @@ const EnrollmentForm = ({ onSuccess }) => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Student:</label>
-                    <select
-                        value={selectedStudent}
-                        onChange={(e) => setSelectedStudent(e.target.value)}
-                    >
-                        <option value="">Select Student</option>
-                        {students.map(s => (
-                            <option key={s.student_id} value={s.student_id}>
-                                {s.first_name} {s.last_name} ({s.email})
-                            </option>
-                        ))}
-                    </select>
+                    {user?.role === 'admin' ? (
+                        <select
+                            value={selectedStudent}
+                            onChange={(e) => setSelectedStudent(e.target.value)}
+                        >
+                            <option value="">Select Student</option>
+                            {students.map(s => (
+                                <option key={s.student_id} value={s.student_id}>
+                                    {s.first_name} {s.last_name} ({s.email})
+                                </option>
+                            ))}
+                        </select>
+                    ) : (
+                        <select
+                            value={selectedStudent}
+                            disabled
+                            style={{ backgroundColor: '#e2e8f0', cursor: 'not-allowed' }}
+                        >
+                            <option value="">Select Student</option>
+                            {students.map(s => (
+                                <option key={s.student_id} value={s.student_id}>
+                                    {s.first_name} {s.last_name} ({s.email})
+                                </option>
+                            ))}
+                        </select>
+                    )}
                 </div>
 
                 <div className="form-group">

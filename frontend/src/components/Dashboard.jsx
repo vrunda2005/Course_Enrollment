@@ -131,6 +131,43 @@ const Dashboard = () => {
                         </ul>
                     </div>
                 )}
+                {/* Course Popularity Visual */}
+                <div className="stat-box" style={{ gridColumn: '1 / -1' }}>
+                    <h3>Course Popularity Trends</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '10px 0' }}>
+                        {topCourses.slice(0, 5).map((course, idx) => {
+                            const maxEnrollments = Math.max(...topCourses.map(c => parseInt(c.enrollment_count)));
+                            const width = maxEnrollments > 0 ? (course.enrollment_count / maxEnrollments) * 100 : 0;
+                            return (
+                                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                    <div style={{ width: '150px', fontSize: '0.9rem', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                        {course.title}
+                                    </div>
+                                    <div style={{ flex: 1, backgroundColor: 'var(--bg-primary)', borderRadius: '4px', height: '24px', overflow: 'hidden' }}>
+                                        <div
+                                            style={{
+                                                width: `${width}%`,
+                                                height: '100%',
+                                                backgroundColor: 'var(--accent-primary)',
+                                                borderRadius: '4px',
+                                                transition: 'width 1s ease',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'flex-end',
+                                                paddingRight: '8px',
+                                                color: 'white',
+                                                fontSize: '0.8rem',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            {course.enrollment_count}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         </div>
     );

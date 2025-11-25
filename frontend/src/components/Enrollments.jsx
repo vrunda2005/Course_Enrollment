@@ -59,19 +59,25 @@ const Enrollments = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {enrollments.map(e => (
-                            <tr key={e.enrollment_id}>
-                                <td>{e.first_name} {e.last_name}</td>
-                                <td>{e.course_title} ({e.course_code})</td>
-                                <td>{e.credits}</td>
-                                <td>{e.status}</td>
-                                <td>{e.grade || '-'}</td>
-                                <td>{new Date(e.enrollment_date).toLocaleDateString()}</td>
-                                <td>
-                                    <button onClick={() => handleDelete(e.enrollment_id)}>Drop</button>
-                                </td>
-                            </tr>
-                        ))}
+                        {enrollments
+                            .filter(e => {
+                                if (user?.role === 'admin') return true;
+                                // Match by email or name (simple matching for this demo)
+                                return e.email === user?.username || e.first_name === user?.username;
+                            })
+                            .map(e => (
+                                <tr key={e.enrollment_id}>
+                                    <td>{e.first_name} {e.last_name}</td>
+                                    <td>{e.course_title} ({e.course_code})</td>
+                                    <td>{e.credits}</td>
+                                    <td>{e.status}</td>
+                                    <td>{e.grade || '-'}</td>
+                                    <td>{new Date(e.enrollment_date).toLocaleDateString()}</td>
+                                    <td>
+                                        <button onClick={() => handleDelete(e.enrollment_id)}>Drop</button>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </div>

@@ -10,6 +10,8 @@ const Courses = () => {
     const [form, setForm] = useState({ title: '', code: '', credits: '', department_id: '' });
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterDept, setFilterDept] = useState('');
 
     const fetchCourses = async () => {
         try {
@@ -77,6 +79,13 @@ const Courses = () => {
         }
     };
 
+    const filteredCourses = courses.filter(course => {
+        const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            course.code.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesDept = filterDept ? course.department_id === filterDept : true;
+        return matchesSearch && matchesDept;
+    });
+
     return (
         <div className="course-management">
             <h2>Course Management</h2>
@@ -113,12 +122,35 @@ const Courses = () => {
                     <button type="submit">{editing ? 'Update' : 'Create'}</button>
                 </form>
             )}
+
+            <div className="filters" style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
+                <input
+                    type="text"
+                    placeholder="Search courses..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc', flex: 1 }}
+                />
+                <select
+                    value={filterDept}
+                    onChange={(e) => setFilterDept(e.target.value)}
+                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc', flex: 1 }}
+                >
+                    <option value="">All Departments</option>
+                    {departments.map(dept => (
+                        <option key={dept.department_id} value={dept.department_id}>
+                            {dept.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
             <table>
                 <thead>
                     <tr><th>Title</th><th>Code</th><th>Credits</th>{user?.role === 'admin' && <th>Actions</th>}</tr>
                 </thead>
                 <tbody>
-                    {courses.map(c => (
+                    {filteredCourses.map(c => (
                         <tr key={c.course_id}>
                             <td>{c.title}</td>
                             <td>{c.code}</td>
